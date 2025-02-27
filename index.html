@@ -33,25 +33,26 @@
             margin-bottom: 20px;
         }
 
-        .input-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
+    .input-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
 
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
+.input-group label {
+    flex: 1; /* Ensures labels take up equal space */
+    text-align: left;
+}
 
-       input, select {
-    width: 100%; /* Ensures all input fields take the same width */
-    max-width: 250px; /* Limits the maximum width */
+.input-group input, 
+.input-group select {
+    flex: 2; /* Ensures input fields and dropdowns take up equal space */
+    width: auto; /* Removes forced 100% width */
+    max-width: 250px; /* Keeps uniform width */
     padding: 8px;
     border-radius: 5px;
     border: none;
-    display: block;
-    margin: 0 auto; /* Centers elements */
 }
 
         button {
