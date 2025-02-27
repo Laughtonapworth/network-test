@@ -44,12 +44,15 @@
             margin-bottom: 5px;
         }
 
-        input, select {
-            width: 100%;
-            padding: 8px;
-            border-radius: 5px;
-            border: none;
-        }
+       input, select {
+    width: 100%; /* Ensures all input fields take the same width */
+    max-width: 250px; /* Limits the maximum width */
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    display: block;
+    margin: 0 auto; /* Centers elements */
+}
 
         button {
             font-size: 16px;
