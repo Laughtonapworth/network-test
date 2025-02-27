@@ -231,13 +231,45 @@
             document.getElementById("emailBtn").style.display = "inline-block";
         }
 
-       function emailResults() {
-    const customerName = document.getElementById("customerName").value || "Customer";
+    function emailResults() {
+    // Ensure results have been generated
+    if (!resultsText) {
+        alert("Please complete the test before sending the email.");
+        return;
+    }
+
+    // Get the customer name and ensure it's captured
+    const customerNameField = document.getElementById("customerName");
+    let customerName = customerNameField ? customerNameField.value.trim() : "";
+    
+    // Use a fallback if the customer name is empty
+    if (!customerName) {
+        customerName = "Customer";
+    }
+
+    // Format the email content
     const email = "tams@revealmedia.com";
     const subject = `${customerName} - Network Performance Test Results`;
-    const body = `Dear TAMS,%0D%0A%0D%0APlease find below ${customerName}'s network performance test results.%0D%0A%0D%0A${resultsText}%0D%0A%0D%0AKind Regards,%0D%0AReveal Media`;
+    
+    // Create a well-formatted email body
+    const emailBody = `
+Dear TAMS,
 
-    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+Please find below ${customerName}'s network performance test results.
+
+===============================
+${resultsText}
+===============================
+
+Kind Regards,
+Reveal Media
+`;
+
+    // Encode the email content properly
+    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+
+    // Open the email client
+    window.location.href = mailtoLink;
 }
     </script>
 
