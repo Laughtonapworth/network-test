@@ -232,6 +232,7 @@
         }
 
         function emailResults() {
+            const customerName = document.getElementById("customerName").value || "Customer";
             const email = "tams@revealmedia.com";
             const subject = "Network Performance Test Results";
             const body = encodeURIComponent(resultsText);
