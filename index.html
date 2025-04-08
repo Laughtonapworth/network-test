@@ -1,190 +1,280 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Player Test Tool</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 2rem;
-    }
-    #metrics {
-      margin-top: 1rem;
-      padding: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background-color: #f9f9f9;
-    }
-    video {
-      width: 100%;
-      max-width: 640px;
-      height: auto;
-      display: block;
-      margin-top: 1rem;
-    }
-    #graphContainer {
-      margin-top: 2rem;
-    }
-  </style>
-</head>
-<body>
-  <h1>Video Player Test Tool</h1>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reveal Media Network Test Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+        }
 
-  <label for="videoSelector">Select a video to test:</label>
-  <select id="videoSelector">
-    <option value="">-- Select a video --</option>
-    <option value="https://ukstoretesting.blob.core.windows.net/media/BigBuckBunny_640x360.m4v">Big Buck Bunny</option>
-    <!-- Add more options here -->
-  </select>
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
 
-  <video id="videoPlayer" controls></video>
+        img {
+            width: 250px;
+            margin-bottom: 20px;
+        }
 
-  <div id="metrics">
-    <p><strong>Load Time:</strong> <span id="loadTime">N/A</span> ms</p>
-    <p><strong>Startup Latency:</strong> <span id="latency">N/A</span> ms</p>
-    <p><strong>Playback Duration:</strong> <span id="playbackDuration">N/A</span> s</p>
-    <p><strong>Total Elapsed Time:</strong> <span id="totalTime">N/A</span> ms</p>
-    <p><strong>Buffering Events:</strong> <span id="bufferCount">0</span></p>
-    <p><strong>Total Buffering Time:</strong> <span id="bufferTime">0</span> ms</p>
-  </div>
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
 
-  <div id="graphContainer">
-    <canvas id="performanceChart" width="600" height="300"></canvas>
-  </div>
-
-  <script>
-    const videoSelector = document.getElementById('videoSelector');
-    const videoPlayer = document.getElementById('videoPlayer');
-    const loadTimeDisplay = document.getElementById('loadTime');
-    const latencyDisplay = document.getElementById('latency');
-    const playbackDurationDisplay = document.getElementById('playbackDuration');
-    const totalTimeDisplay = document.getElementById('totalTime');
-    const bufferCountDisplay = document.getElementById('bufferCount');
-    const bufferTimeDisplay = document.getElementById('bufferTime');
-
-    let loadStart = 0;
-    let loadedDataTime = 0;
-    let playingTime = 0;
-    let endTime = 0;
-
-    let bufferCount = 0;
-    let totalBufferTime = 0;
-    let bufferStart = 0;
-    let isBuffering = false;
-
-    function resetMetrics() {
-      loadTimeDisplay.textContent = 'N/A';
-      latencyDisplay.textContent = 'N/A';
-      playbackDurationDisplay.textContent = 'N/A';
-      totalTimeDisplay.textContent = 'N/A';
-      bufferCountDisplay.textContent = '0';
-      bufferTimeDisplay.textContent = '0';
-
-      bufferCount = 0;
-      totalBufferTime = 0;
-      bufferStart = 0;
-      isBuffering = false;
-
-      const ctx = document.getElementById('performanceChart').getContext('2d');
-      if (window.performanceChart) {
-        window.performanceChart.destroy();
-      }
-      ctx.clearRect(0, 0, 600, 300);
-    }
-
-    function loadVideo(url) {
-  if (!url) return;
-  resetMetrics();
-  loadStart = performance.now();
-  videoPlayer.src = url;
-  videoPlayer.load(); // Ensures video is properly loaded and playable
+    .input-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
 }
 
-    videoPlayer.addEventListener('loadeddata', () => {
-      loadedDataTime = performance.now();
-      const loadTime = loadedDataTime - loadStart;
-      loadTimeDisplay.textContent = loadTime.toFixed(2);
-    });
+.input-group label {
+    flex: 1; /* Keeps labels aligned */
+    text-align: left;
+}
 
-    videoPlayer.addEventListener('playing', () => {
-      if (isBuffering) {
-        const bufferDuration = performance.now() - bufferStart;
-        totalBufferTime += bufferDuration;
-        bufferTimeDisplay.textContent = totalBufferTime.toFixed(2);
-        isBuffering = false;
-      } else if (!playingTime) {
-        playingTime = performance.now();
-        const latency = playingTime - loadedDataTime;
-        latencyDisplay.textContent = latency.toFixed(2);
-      }
-    });
+.input-group input, 
+.input-group select {
+    flex: 1.5; /* Ensures uniform field size */
+    width: 200px; /* Sets the same width for input boxes and dropdowns */
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc; /* Makes styling consistent */
+}
 
-    videoPlayer.addEventListener('waiting', () => {
-      if (!isBuffering) {
-        bufferCount++;
-        bufferCountDisplay.textContent = bufferCount;
-        bufferStart = performance.now();
-        isBuffering = true;
-      }
-    });
-
-    videoPlayer.addEventListener('ended', () => {
-      endTime = performance.now();
-      const playbackDuration = (endTime - playingTime) / 1000;
-      const totalElapsedTime = endTime - loadStart;
-
-      playbackDurationDisplay.textContent = playbackDuration.toFixed(2);
-      totalTimeDisplay.textContent = totalElapsedTime.toFixed(2);
-
-      renderPerformanceChart({
-        loadTime: loadedDataTime - loadStart,
-        latency: playingTime - loadedDataTime,
-        playbackDuration: (endTime - playingTime) / 1000,
-        totalTime: totalElapsedTime,
-        bufferingTime: totalBufferTime,
-        bufferingCount: bufferCount
-      });
-    });
-
-    function renderPerformanceChart(data) {
-      const ctx = document.getElementById('performanceChart').getContext('2d');
-      window.performanceChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: ['Load Time', 'Startup Latency', 'Playback Duration (s)', 'Total Elapsed Time', 'Buffering Time', 'Buffering Events'],
-          datasets: [{
-            label: 'Playback Metrics',
-            data: [
-              data.loadTime,
-              data.latency,
-              data.playbackDuration,
-              data.totalTime,
-              data.bufferingTime,
-              data.bufferingCount
-            ],
-            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-          }]
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
+        button {
+            font-size: 16px;
+            padding: 12px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
         }
-      });
+
+        .start-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .start-btn:hover {
+            background-color: #45a049;
+        }
+
+        .email-btn {
+            background-color: #008CBA;
+            color: white;
+            display: none;
+        }
+
+        .email-btn:hover {
+            background-color: #007bb5;
+        }
+
+        #results {
+            margin-top: 20px;
+            text-align: left;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="https://peoplesafe.co.uk/wp-content/uploads/2022/02/reveal-1.png" alt="Reveal Media Logo">
+        
+        <h1>Reveal Media Network Test Tool</h1>
+
+        <div class="input-group">
+            <label for="customerName">Customer Name:</label>
+            <input type="text" id="customerName" placeholder="Enter name">
+        </div>
+
+        <div class="input-group">
+            <label for="customerType">Customer Type:</label>
+            <select id="customerType">
+                <option value="">-- Select --</option>
+                <option value="Law Enforcement">Law Enforcement</option>
+                <option value="Retail">Retail</option>
+                <option value="Local Government">Local Government</option>
+                <option value="Health">Health</option>
+                <option value="Emergency Services">Emergency Services</option>
+                <option value="Sport">Sport</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="testLocation">Test Location:</label>
+            <select id="testLocation">
+                <option value="">-- Select --</option>
+                <option value="Head Office">Head Office</option>
+                <option value="Remote Site">Remote Site</option>
+                <option value="Retail Store">Retail Store</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="internetPerformance">Usual Internet Connectivity Performance:</label>
+            <select id="internetPerformance">
+                <option value="">-- Select --</option>
+                <option value="Excellent">Excellent</option>
+                <option value="Good">Good</option>
+                <option value="Fair">Fair</option>
+                <option value="Poor">Poor</option>
+            </select>
+        </div>
+
+        <button class="start-btn" onclick="startTest()">Start Test</button>
+        <button class="email-btn" id="emailBtn" onclick="emailResults()">Email Results</button>
+        
+        <div id="results"></div>
+    </div>
+
+    <script>
+        let resultsText = "";
+        let emailResultsText = "";
+
+        function startTest() {
+            document.getElementById("results").innerHTML = "Running tests, please wait...";
+            resultsText = "Reveal Media Network Test Tool Results\n====================================\n";
+
+            const customerName = document.getElementById("customerName").value || "Not provided";
+            const customerType = document.getElementById("customerType").value || "Not provided";
+            const testLocation = document.getElementById("testLocation").value || "Not provided";
+            const internetPerformance = document.getElementById("internetPerformance").value || "Not provided";
+
+            resultsText += `Customer Name: ${customerName}\n`;
+            resultsText += `Customer Type: ${customerType}\n`;
+            resultsText += `Test Location: ${testLocation}\n`;
+            resultsText += `Usual Internet Performance: ${internetPerformance}\n\n`;
+
+            runSpeedTest();
+        }
+
+        function runSpeedTest() {
+            const startTime = performance.now();
+            fetch("https://fast.com/resource.html", { cache: "no-cache", mode: "no-cors" }).then(() => {
+                const endTime = performance.now();
+                const timeTaken = (endTime - startTime) / 1000;
+                const estimatedSpeed = (1 / timeTaken) * 8;
+
+                resultsText += `Download Speed: ~${estimatedSpeed.toFixed(2)} Mbps\n`;
+                runLatencyTest();
+            }).catch(() => {
+                resultsText += "Speed test failed.\n";
+                runLatencyTest();
+            });
+        }
+
+        function runLatencyTest() {
+            const servers = ["uscloud-w.dems360.com", "ukcloud.dems360.com", "nlcloud.dems360.com", "aucloud.dems360.com"];
+            let completedRequests = 0;
+            let latencyResults = {};
+
+            servers.forEach(server => {
+                let latencies = [];
+
+                function pingServer(iteration) {
+                    if (iteration > 10) {
+                        latencyResults[server] = latencies;
+                        completedRequests++;
+                        if (completedRequests === servers.length) {
+                            calculateLatencyResults(latencyResults);
+                        }
+                        return;
+                    }
+
+                    const startTime = performance.now();
+                    fetch(`https://${server}`, { mode: "no-cors" }).then(() => {
+                        latencies.push(performance.now() - startTime);
+                        setTimeout(() => pingServer(iteration + 1), 100);
+                    }).catch(() => {
+                        latencies.push(9999);
+                        setTimeout(() => pingServer(iteration + 1), 100);
+                    });
+                }
+
+                pingServer(1);
+            });
+        }
+
+        function calculateLatencyResults(latencyResults) {
+            resultsText += "\nLatency Test Results:\n";
+            for (const server in latencyResults) {
+                const latencies = latencyResults[server].filter(l => l < 9999);
+                if (latencies.length > 0) {
+                    const minLatency = Math.min(...latencies);
+                    const maxLatency = Math.max(...latencies);
+                    const avgLatency = (latencies.reduce((a, b) => a + b, 0) / latencies.length).toFixed(2);
+
+                    resultsText += `${server}: Min: ${minLatency.toFixed(2)} ms | Max: ${maxLatency.toFixed(2)} ms | Avg: ${avgLatency} ms\n`;
+                } else {
+                    resultsText += `${server}: All pings failed\n`;
+                }
+            }
+
+            document.getElementById("results").innerText = resultsText;
+            document.getElementById("emailBtn").style.display = "inline-block";
+        }
+
+    function emailResults() {
+    // Ensure results have been generated
+    if (!resultsText) {
+        alert("Please complete the test before sending the email.");
+        return;
     }
 
-    videoSelector.addEventListener('change', (e) => {
-      const url = e.target.value;
-      if (url) {
-        loadVideo(url);
-      }
-    });
-  </script>
+    // Get the customer name and ensure it's captured
+    const customerNameField = document.getElementById("customerName");
+    let customerName = customerNameField ? customerNameField.value.trim() : "";
+    
+    // Use a fallback if the customer name is empty
+    if (!customerName) {
+        customerName = "Customer";
+    }
+
+    // Format the email content
+    const email = "tams@revealmedia.com";
+    const subject = `${customerName} - Network Performance Test Results`;
+    
+    // Create a well-formatted email body
+    const emailBody = `
+Dear TAMS,
+
+Please find below ${customerName}'s network performance test results.
+
+===============================
+${resultsText}
+===============================
+
+Kind Regards,
+Reveal Media
+`;
+
+    // Encode the email content properly
+    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+
+    // Open the email client
+    window.location.href = mailtoLink;
+}
+    </script>
+
 </body>
 </html>
