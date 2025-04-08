@@ -1,280 +1,300 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reveal Media Network Test Tool</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: white;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reveal Media Network Test Tool</title>
 
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        img {
-            width: 250px;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: white;
+    }
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    }
+    img {
+      width: 250px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
     .input-group {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 15px;
-}
-
-.input-group label {
-    flex: 1; /* Keeps labels aligned */
-    text-align: left;
-}
-
-.input-group input, 
-.input-group select {
-    flex: 1.5; /* Ensures uniform field size */
-    width: 200px; /* Sets the same width for input boxes and dropdowns */
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc; /* Makes styling consistent */
-}
-
-        button {
-            font-size: 16px;
-            padding: 12px 20px;
-            margin: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .start-btn {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .start-btn:hover {
-            background-color: #45a049;
-        }
-
-        .email-btn {
-            background-color: #008CBA;
-            color: white;
-            display: none;
-        }
-
-        .email-btn:hover {
-            background-color: #007bb5;
-        }
-
-        #results {
-            margin-top: 20px;
-            text-align: left;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            white-space: pre-line;
-        }
-    </style>
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+    .input-group label {
+      flex: 1;
+      text-align: left;
+    }
+    .input-group input,
+    .input-group select {
+      flex: 1.5;
+      width: 200px;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      font-size: 16px;
+      padding: 12px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .start-btn {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .start-btn:hover {
+      background-color: #45a049;
+    }
+    .email-btn {
+      background-color: #008CBA;
+      color: white;
+      display: none;
+    }
+    .email-btn:hover {
+      background-color: #007bb5;
+    }
+    #results {
+      margin-top: 20px;
+      text-align: left;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+      white-space: pre-line;
+    }
+    progress {
+      width: 100%;
+      margin-top: 10px;
+    }
+    video {
+      margin-top: 20px;
+      width: 100%;
+      border-radius: 10px;
+      display: none;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <img src="https://peoplesafe.co.uk/wp-content/uploads/2022/02/reveal-1.png" alt="Reveal Media Logo">
+    <h1>Reveal Media Network Test Tool</h1>
 
-    <div class="container">
-        <img src="https://peoplesafe.co.uk/wp-content/uploads/2022/02/reveal-1.png" alt="Reveal Media Logo">
-        
-        <h1>Reveal Media Network Test Tool</h1>
-
-        <div class="input-group">
-            <label for="customerName">Customer Name:</label>
-            <input type="text" id="customerName" placeholder="Enter name">
-        </div>
-
-        <div class="input-group">
-            <label for="customerType">Customer Type:</label>
-            <select id="customerType">
-                <option value="">-- Select --</option>
-                <option value="Law Enforcement">Law Enforcement</option>
-                <option value="Retail">Retail</option>
-                <option value="Local Government">Local Government</option>
-                <option value="Health">Health</option>
-                <option value="Emergency Services">Emergency Services</option>
-                <option value="Sport">Sport</option>
-                <option value="Other">Other</option>
-            </select>
-        </div>
-
-        <div class="input-group">
-            <label for="testLocation">Test Location:</label>
-            <select id="testLocation">
-                <option value="">-- Select --</option>
-                <option value="Head Office">Head Office</option>
-                <option value="Remote Site">Remote Site</option>
-                <option value="Retail Store">Retail Store</option>
-                <option value="Other">Other</option>
-            </select>
-        </div>
-
-        <div class="input-group">
-            <label for="internetPerformance">Usual Internet Connectivity Performance:</label>
-            <select id="internetPerformance">
-                <option value="">-- Select --</option>
-                <option value="Excellent">Excellent</option>
-                <option value="Good">Good</option>
-                <option value="Fair">Fair</option>
-                <option value="Poor">Poor</option>
-            </select>
-        </div>
-
-        <button class="start-btn" onclick="startTest()">Start Test</button>
-        <button class="email-btn" id="emailBtn" onclick="emailResults()">Email Results</button>
-        
-        <div id="results"></div>
+    <div class="input-group">
+      <label for="customerName">Customer Name:</label>
+      <input type="text" id="customerName" placeholder="Enter name">
     </div>
 
+    <div class="input-group">
+      <label for="customerType">Customer Type:</label>
+      <select id="customerType">
+        <option value="">-- Select --</option>
+        <option value="Law Enforcement">Law Enforcement</option>
+        <option value="Retail">Retail</option>
+        <option value="Local Government">Local Government</option>
+        <option value="Health">Health</option>
+        <option value="Emergency Services">Emergency Services</option>
+        <option value="Sport">Sport</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label for="testLocation">Test Location:</label>
+      <select id="testLocation">
+        <option value="">-- Select --</option>
+        <option value="Head Office">Head Office</option>
+        <option value="Remote Site">Remote Site</option>
+        <option value="Retail Store">Retail Store</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label for="internetPerformance">Usual Internet Connectivity Performance:</label>
+      <select id="internetPerformance">
+        <option value="">-- Select --</option>
+        <option value="Excellent">Excellent</option>
+        <option value="Good">Good</option>
+        <option value="Fair">Fair</option>
+        <option value="Poor">Poor</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label for="videoSelect">Select Video Test File:</label>
+      <select id="videoSelect">
+        <option value="https://ukstoretesting.blob.core.windows.net/media/Why%20You%20Should%20NEVER%20Take%20a%20Break%20%E2%A7%B8%20Funny%20animated%20short%20film.mp4">Never Take a Break</option>
+      </select>
+    </div>
+
+    <button class="start-btn" onclick="startTest()">Start Test</button>
+    <button class="email-btn" id="emailBtn" onclick="emailResults()">Email Results</button>
+
+    <div id="results">Click "Start Test" to begin...</div>
+    <progress id="videoProgress" value="0" max="1" style="display:none;"></progress>
+    <video id="testVideo" controls>
+      <source id="videoSource" src="" type="video/mp4">
+      Your browser does not support HTML5 video.
+    </video>
+
     <script>
-        let resultsText = "";
-        let emailResultsText = "";
+      let resultsText = "";
+      let videoResultsText = "";
 
-        function startTest() {
-            document.getElementById("results").innerHTML = "Running tests, please wait...";
-            resultsText = "Reveal Media Network Test Tool Results\n====================================\n";
+      function startTest() {
+        document.getElementById("results").innerText = "Running tests, please wait...";
+        resultsText = "Reveal Media Network Test Tool Results\n====================================\n";
 
-            const customerName = document.getElementById("customerName").value || "Not provided";
-            const customerType = document.getElementById("customerType").value || "Not provided";
-            const testLocation = document.getElementById("testLocation").value || "Not provided";
-            const internetPerformance = document.getElementById("internetPerformance").value || "Not provided";
+        const customerName = document.getElementById("customerName").value || "Not provided";
+        const customerType = document.getElementById("customerType").value || "Not provided";
+        const testLocation = document.getElementById("testLocation").value || "Not provided";
+        const internetPerformance = document.getElementById("internetPerformance").value || "Not provided";
 
-            resultsText += `Customer Name: ${customerName}\n`;
-            resultsText += `Customer Type: ${customerType}\n`;
-            resultsText += `Test Location: ${testLocation}\n`;
-            resultsText += `Usual Internet Performance: ${internetPerformance}\n\n`;
+        resultsText += `Customer Name: ${customerName}\n`;
+        resultsText += `Customer Type: ${customerType}\n`;
+        resultsText += `Test Location: ${testLocation}\n`;
+        resultsText += `Usual Internet Performance: ${internetPerformance}\n\n`;
 
-            runSpeedTest();
-        }
+        runLatencyTest();
+      }
 
-        function runSpeedTest() {
-            const startTime = performance.now();
-            fetch("https://fast.com/resource.html", { cache: "no-cache", mode: "no-cors" }).then(() => {
-                const endTime = performance.now();
-                const timeTaken = (endTime - startTime) / 1000;
-                const estimatedSpeed = (1 / timeTaken) * 8;
+      function runLatencyTest() {
+        const servers = ["uscloud-w.dems360.com", "ukcloud.dems360.com", "nlcloud.dems360.com", "aucloud.dems360.com"];
+        let completedRequests = 0;
+        let latencyResults = {};
 
-                resultsText += `Download Speed: ~${estimatedSpeed.toFixed(2)} Mbps\n`;
-                runLatencyTest();
-            }).catch(() => {
-                resultsText += "Speed test failed.\n";
-                runLatencyTest();
-            });
-        }
-
-        function runLatencyTest() {
-            const servers = ["uscloud-w.dems360.com", "ukcloud.dems360.com", "nlcloud.dems360.com", "aucloud.dems360.com"];
-            let completedRequests = 0;
-            let latencyResults = {};
-
-            servers.forEach(server => {
-                let latencies = [];
-
-                function pingServer(iteration) {
-                    if (iteration > 10) {
-                        latencyResults[server] = latencies;
-                        completedRequests++;
-                        if (completedRequests === servers.length) {
-                            calculateLatencyResults(latencyResults);
-                        }
-                        return;
-                    }
-
-                    const startTime = performance.now();
-                    fetch(`https://${server}`, { mode: "no-cors" }).then(() => {
-                        latencies.push(performance.now() - startTime);
-                        setTimeout(() => pingServer(iteration + 1), 100);
-                    }).catch(() => {
-                        latencies.push(9999);
-                        setTimeout(() => pingServer(iteration + 1), 100);
-                    });
-                }
-
-                pingServer(1);
-            });
-        }
-
-        function calculateLatencyResults(latencyResults) {
-            resultsText += "\nLatency Test Results:\n";
-            for (const server in latencyResults) {
-                const latencies = latencyResults[server].filter(l => l < 9999);
-                if (latencies.length > 0) {
-                    const minLatency = Math.min(...latencies);
-                    const maxLatency = Math.max(...latencies);
-                    const avgLatency = (latencies.reduce((a, b) => a + b, 0) / latencies.length).toFixed(2);
-
-                    resultsText += `${server}: Min: ${minLatency.toFixed(2)} ms | Max: ${maxLatency.toFixed(2)} ms | Avg: ${avgLatency} ms\n`;
-                } else {
-                    resultsText += `${server}: All pings failed\n`;
-                }
+        servers.forEach(server => {
+          let latencies = [];
+          function pingServer(iteration) {
+            if (iteration > 5) {
+              latencyResults[server] = latencies;
+              completedRequests++;
+              if (completedRequests === servers.length) {
+                calculateLatencyResults(latencyResults);
+              }
+              return;
             }
 
-            document.getElementById("results").innerText = resultsText;
-            document.getElementById("emailBtn").style.display = "inline-block";
+            const startTime = performance.now();
+            fetch(`https://${server}`, { mode: "no-cors" }).then(() => {
+              latencies.push(performance.now() - startTime);
+              setTimeout(() => pingServer(iteration + 1), 100);
+            }).catch(() => {
+              latencies.push(9999);
+              setTimeout(() => pingServer(iteration + 1), 100);
+            });
+          }
+          pingServer(1);
+        });
+      }
+
+      function calculateLatencyResults(latencyResults) {
+        resultsText += "\nLatency Test Results:\n";
+        for (const server in latencyResults) {
+          const latencies = latencyResults[server].filter(l => l < 9999);
+          if (latencies.length > 0) {
+            const minLatency = Math.min(...latencies);
+            const maxLatency = Math.max(...latencies);
+            const avgLatency = (latencies.reduce((a, b) => a + b, 0) / latencies.length).toFixed(2);
+
+            resultsText += `${server}: Min: ${minLatency.toFixed(2)} ms | Max: ${maxLatency.toFixed(2)} ms | Avg: ${avgLatency} ms\n`;
+          } else {
+            resultsText += `${server}: All pings failed\n`;
+          }
         }
+        runVideoTest();
+      }
 
-    function emailResults() {
-    // Ensure results have been generated
-    if (!resultsText) {
-        alert("Please complete the test before sending the email.");
-        return;
-    }
+      function runVideoTest() {
+        const video = document.getElementById("testVideo");
+        const source = document.getElementById("videoSource");
+        const selectedVideo = document.getElementById("videoSelect").value;
 
-    // Get the customer name and ensure it's captured
-    const customerNameField = document.getElementById("customerName");
-    let customerName = customerNameField ? customerNameField.value.trim() : "";
-    
-    // Use a fallback if the customer name is empty
-    if (!customerName) {
-        customerName = "Customer";
-    }
+        let loadStart = 0, playStart = 0, totalBufferTime = 0, bufferEvents = 0, lastBufferStart = 0;
+        videoResultsText = "";
 
-    // Format the email content
-    const email = "tams@revealmedia.com";
-    const subject = `${customerName} - Network Performance Test Results`;
-    
-    // Create a well-formatted email body
-    const emailBody = `
-Dear TAMS,
+        video.style.display = "block";
+        video.pause();
+        video.removeAttribute('src');
+        source.src = selectedVideo;
+        video.load();
 
-Please find below ${customerName}'s network performance test results.
+        const onLoadStart = () => loadStart = performance.now();
+        const onCanPlay = () => {
+          const loadTime = (performance.now() - loadStart).toFixed(2);
+          videoResultsText += `Video URL: ${selectedVideo}\nLoad Time: ${loadTime} ms\n`;
+          playStart = performance.now();
+          video.play();
+        };
+        const onWaiting = () => {
+          lastBufferStart = performance.now();
+          bufferEvents++;
+        };
+        const onPlaying = () => {
+          if (lastBufferStart > 0) {
+            totalBufferTime += performance.now() - lastBufferStart;
+            lastBufferStart = 0;
+          }
+        };
+        const onEnded = () => {
+          const latency = (performance.now() - playStart).toFixed(2);
+          videoResultsText += `Startup Latency: ${latency} ms\nBuffer Events: ${bufferEvents}\nTotal Buffer Time: ${totalBufferTime.toFixed(2)} ms\n`;
+          resultsText += `\nVideo Playback Test:\n${videoResultsText}`;
 
-===============================
-${resultsText}
-===============================
+          document.getElementById("results").innerText = resultsText;
+          document.getElementById("emailBtn").style.display = "inline-block";
 
-Kind Regards,
-Reveal Media
-`;
+          // Capture playback resolution and dropped frames
+          const resolution = `${video.videoWidth}x${video.videoHeight}`;
+          const droppedFrames = video.getVideoPlaybackQuality ? video.getVideoPlaybackQuality().droppedVideoFrames : 'N/A';
+          const totalFrames = video.getVideoPlaybackQuality ? video.getVideoPlaybackQuality().totalVideoFrames : 'N/A';
 
-    // Encode the email content properly
-    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+          videoResultsText += `Resolution: ${resolution}\nDropped Frames: ${droppedFrames}\nTotal Frames: ${totalFrames}\n`;
+        };
 
-    // Open the email client
-    window.location.href = mailtoLink;
-}
+        video.addEventListener("loadstart", onLoadStart);
+        video.addEventListener("canplay", onCanPlay);
+        video.addEventListener("timeupdate", () => {
+          const progressBar = document.getElementById("videoProgress");
+          if (video.duration > 0) {
+            progressBar.style.display = "block";
+            progressBar.value = video.currentTime / video.duration;
+          }
+        });
+        video.addEventListener("waiting", onWaiting);
+        video.addEventListener("playing", onPlaying);
+        video.addEventListener("ended", onEnded);
+      }
+
+      function emailResults() {
+        if (!resultsText) {
+          alert("Please complete the test before sending the email.");
+          return;
+        }
+        const customerName = document.getElementById("customerName").value.trim() || "Customer";
+        const subject = `${customerName} - Network Performance Test Results`;
+        const emailBody = `Dear TAMS,%0D%0A%0D%0APlease find below ${customerName}'s network performance test results.%0D%0A%0D%0A===============================%0D%0A${encodeURIComponent(resultsText)}%0D%0A===============================%0D%0A%0D%0AKind Regards,%0D%0AReveal Media`;
+        window.location.href = `mailto:tams@revealmedia.com?subject=${encodeURIComponent(subject)}&body=${emailBody}`;
+      }
     </script>
-
+  </div>
 </body>
 </html>
