@@ -152,7 +152,7 @@ function showLatencyResults(results) {
 }
 
 function runDownloadSpeedTest() {
-  const fileUrl = "https://github.com/Laughtonapworth/network-test/blob/main/10MB.zip";
+  const fileUrl = "https://speed.hetzner.de/100MB.bin";
   const startTime = performance.now();
   fetch(fileUrl, { cache: "no-store" }).then(r => r.blob()).then(blob => {
     const duration = (performance.now() - startTime) / 1000;
