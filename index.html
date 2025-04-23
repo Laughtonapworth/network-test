@@ -4,297 +4,262 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Reveal Media Network Test Tool</title>
-
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      color: white;
-    }
-    .container {
-      max-width: 600px;
-      margin: 50px auto;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.7);
-      border-radius: 10px;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    }
-    img {
-      width: 250px;
-      margin-bottom: 20px;
-    }
-    h1 {
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-    .input-group {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 15px;
-    }
-    .input-group label {
-      flex: 1;
-      text-align: left;
-    }
-    .input-group input,
-    .input-group select {
-      flex: 1.5;
-      width: 200px;
-      padding: 8px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    button {
-      font-size: 16px;
-      padding: 12px 20px;
-      margin: 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .start-btn {
-      background-color: #4CAF50;
-      color: white;
-    }
-    .start-btn:hover {
-      background-color: #45a049;
-    }
-    .email-btn {
-      background-color: #008CBA;
-      color: white;
-      display: none;
-    }
-    .email-btn:hover {
-      background-color: #007bb5;
-    }
-    #results {
-      margin-top: 20px;
-      text-align: left;
-      padding: 10px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 5px;
-      white-space: pre-line;
-    }
-    progress {
-      width: 100%;
-      margin-top: 10px;
-    }
-    video {
-      margin-top: 20px;
-      width: 100%;
-      border-radius: 10px;
-      display: none;
-    }
+    body { font-family: Arial, sans-serif; background: #0f2235; color: white; margin: 0; padding: 20px; }
+    .container { max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; gap: 20px; }
+    .panel { flex: 1; min-width: 320px; background: #1c2d41; padding: 20px; border-radius: 10px; }
+    h1 { font-size: 22px; text-align: center; margin-bottom: 10px; }
+    .input-group { margin-bottom: 12px; }
+    label { display: block; font-size: 14px; margin-bottom: 5px; }
+    input, select { width: 100%; padding: 6px; font-size: 14px; border: none; border-radius: 5px; }
+    button { margin-top: 10px; padding: 10px 20px; font-size: 14px; border: none; border-radius: 5px; cursor: pointer; }
+    .start-btn { background-color: #4CAF50; color: white; }
+    .button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+.email-btn, .download-btn {
+  background-color: #2196F3;
+  color: white;
+  display: none;
+}
+.download-btn {
+  background-color: #f39c12;
+}
+    #status { margin-top: 15px; padding: 10px; background: #103a5d; border-left: 4px solid #4CAF50; border-radius: 5px; white-space: pre-line; min-height: 140px; }
+    video { display: none; margin-top: 20px; width: 100%; border-radius: 10px; }
   </style>
 </head>
 <body>
+  <h1>Reveal Media Network Test Tool</h1>
   <div class="container">
-    <img src="https://peoplesafe.co.uk/wp-content/uploads/2022/02/reveal-1.png" alt="Reveal Media Logo">
-    <h1>Reveal Media Network Test Tool</h1>
-
-    <div class="input-group">
-      <label for="customerName">Customer Name:</label>
-      <input type="text" id="customerName" placeholder="Enter name">
-    </div>
-
-    <div class="input-group">
-      <label for="customerType">Customer Type:</label>
-      <select id="customerType">
+    <div class="panel">
+      <h2>Step 1: Customer Details</h2>
+      <div class="input-group"><label for="customerName">Customer Name</label><input type="text" id="customerName" /></div>
+      <div class="input-group"><label for="customerType">Customer Type</label><select id="customerType">
         <option value="">-- Select --</option>
-        <option value="Law Enforcement">Law Enforcement</option>
-        <option value="Retail">Retail</option>
-        <option value="Local Government">Local Government</option>
-        <option value="Health">Health</option>
-        <option value="Emergency Services">Emergency Services</option>
-        <option value="Sport">Sport</option>
-        <option value="Other">Other</option>
-      </select>
-    </div>
-
-    <div class="input-group">
-      <label for="testLocation">Test Location:</label>
-      <select id="testLocation">
+        <option>Law Enforcement</option><option>Retail</option><option>Local Government</option>
+        <option>Health</option><option>Emergency Services</option><option>Sport</option><option>Other</option>
+      </select></div>
+      <div class="input-group"><label for="testLocation">Test Location</label><select id="testLocation">
+        <option value="">-- Select --</option><option>Head Office</option><option>Remote Site</option><option>Retail Store</option><option>Other</option>
+      </select></div>
+      <div class="input-group"><label for="internetPerformance">Internet Performance</label><select id="internetPerformance">
+        <option value="">-- Select --</option><option>Excellent</option><option>Good</option><option>Fair</option><option>Poor</option>
+      </select></div>
+      <div class="input-group"><label for="videoSelect">Video File</label><select id="videoSelect">
         <option value="">-- Select --</option>
-        <option value="Head Office">Head Office</option>
-        <option value="Remote Site">Remote Site</option>
-        <option value="Retail Store">Retail Store</option>
-        <option value="Other">Other</option>
-      </select>
-    </div>
-
-    <div class="input-group">
-      <label for="internetPerformance">Usual Internet Connectivity Performance:</label>
-      <select id="internetPerformance">
-        <option value="">-- Select --</option>
-        <option value="Excellent">Excellent</option>
-        <option value="Good">Good</option>
-        <option value="Fair">Fair</option>
-        <option value="Poor">Poor</option>
-      </select>
-    </div>
-
-    <div class="input-group">
-      <label for="videoSelect">Select Video Test File:</label>
-      <select id="videoSelect">
         <option value="https://ukstoretesting.blob.core.windows.net/media/4K%20ULtra%20HD%20%EF%BD%9C%20SAMSUNG%20UHD%20Demo%D7%83%20LED%20TV.mp4">Never Take a Break</option>
-      </select>
+      </select></div>
+      <button class="start-btn" onclick="startTest()">Start Test</button>
+      <button class="email-btn" id="emailBtn" onclick="emailResults()">Email Results</button>
+      <button class="download-btn" id="downloadBtn" onclick="downloadResults()">Download Log</button>
     </div>
-
-    <button class="start-btn" onclick="startTest()">Start Test</button>
-    <button class="email-btn" id="emailBtn" onclick="emailResults()">Email Results</button>
-
-    <div id="results">Click "Start Test" to begin...</div>
-    <progress id="videoProgress" value="0" max="1" style="display:none;"></progress>
-    <video id="testVideo" controls>
-      <source id="videoSource" src="" type="video/mp4">
-      Your browser does not support HTML5 video.
-    </video>
-
-    <script>
-      let resultsText = "";
-      let videoResultsText = "";
-
-      function startTest() {
-        document.getElementById("results").innerText = "Running tests, please wait...";
-        resultsText = "Reveal Media Network Test Tool Results\n====================================\n";
-
-        const customerName = document.getElementById("customerName").value || "Not provided";
-        const customerType = document.getElementById("customerType").value || "Not provided";
-        const testLocation = document.getElementById("testLocation").value || "Not provided";
-        const internetPerformance = document.getElementById("internetPerformance").value || "Not provided";
-
-        resultsText += `Customer Name: ${customerName}\n`;
-        resultsText += `Customer Type: ${customerType}\n`;
-        resultsText += `Test Location: ${testLocation}\n`;
-        resultsText += `Usual Internet Performance: ${internetPerformance}\n\n`;
-
-        runLatencyTest();
-      }
-
-      function runLatencyTest() {
-        const servers = ["uscloud-w.dems360.com", "ukcloud.dems360.com", "nlcloud.dems360.com", "aucloud.dems360.com"];
-        let completedRequests = 0;
-        let latencyResults = {};
-
-        servers.forEach(server => {
-          let latencies = [];
-          function pingServer(iteration) {
-            if (iteration > 5) {
-              latencyResults[server] = latencies;
-              completedRequests++;
-              if (completedRequests === servers.length) {
-                calculateLatencyResults(latencyResults);
-              }
-              return;
-            }
-
-            const startTime = performance.now();
-            fetch(`https://${server}`, { mode: "no-cors" }).then(() => {
-              latencies.push(performance.now() - startTime);
-              setTimeout(() => pingServer(iteration + 1), 100);
-            }).catch(() => {
-              latencies.push(9999);
-              setTimeout(() => pingServer(iteration + 1), 100);
-            });
-          }
-          pingServer(1);
-        });
-      }
-
-      function calculateLatencyResults(latencyResults) {
-        resultsText += "\nLatency Test Results:\n";
-        for (const server in latencyResults) {
-          const latencies = latencyResults[server].filter(l => l < 9999);
-          if (latencies.length > 0) {
-            const minLatency = Math.min(...latencies);
-            const maxLatency = Math.max(...latencies);
-            const avgLatency = (latencies.reduce((a, b) => a + b, 0) / latencies.length).toFixed(2);
-
-            resultsText += `${server}: Min: ${minLatency.toFixed(2)} ms | Max: ${maxLatency.toFixed(2)} ms | Avg: ${avgLatency} ms\n`;
-          } else {
-            resultsText += `${server}: All pings failed\n`;
-          }
-        }
-        runVideoTest();
-      }
-
-      function runVideoTest() {
-        const video = document.getElementById("testVideo");
-        const source = document.getElementById("videoSource");
-        const selectedVideo = document.getElementById("videoSelect").value;
-
-        let loadStart = 0, playStart = 0, totalBufferTime = 0, bufferEvents = 0, lastBufferStart = 0;
-        videoResultsText = "";
-
-        video.style.display = "block";
-        video.pause();
-        video.removeAttribute('src');
-        source.src = selectedVideo;
-        video.load();
-
-        const onLoadStart = () => loadStart = performance.now();
-        const onCanPlay = () => {
-          const loadTime = (performance.now() - loadStart).toFixed(2);
-          videoResultsText += `Video URL: ${selectedVideo}\nLoad Time: ${loadTime} ms\n`;
-          playStart = performance.now();
-          video.play();
-        };
-        const onWaiting = () => {
-          lastBufferStart = performance.now();
-          bufferEvents++;
-        };
-        const onPlaying = () => {
-          if (lastBufferStart > 0) {
-            totalBufferTime += performance.now() - lastBufferStart;
-            lastBufferStart = 0;
-          }
-        };
-        const onEnded = () => {
-          const latency = (performance.now() - playStart).toFixed(2);
-          videoResultsText += `Startup Latency: ${latency} ms\nBuffer Events: ${bufferEvents}\nTotal Buffer Time: ${totalBufferTime.toFixed(2)} ms\n`;
-          resultsText += `\nVideo Playback Test:\n${videoResultsText}`;
-
-          document.getElementById("results").innerText = resultsText;
-          document.getElementById("emailBtn").style.display = "inline-block";
-
-          // Capture playback resolution and dropped frames
-          const resolution = `${video.videoWidth}x${video.videoHeight}`;
-          const droppedFrames = video.getVideoPlaybackQuality ? video.getVideoPlaybackQuality().droppedVideoFrames : 'N/A';
-          const totalFrames = video.getVideoPlaybackQuality ? video.getVideoPlaybackQuality().totalVideoFrames : 'N/A';
-
-          videoResultsText += `Resolution: ${resolution}\nDropped Frames: ${droppedFrames}\nTotal Frames: ${totalFrames}\n`;
-        };
-
-        video.addEventListener("loadstart", onLoadStart);
-        video.addEventListener("canplay", onCanPlay);
-        video.addEventListener("timeupdate", () => {
-          const progressBar = document.getElementById("videoProgress");
-          if (video.duration > 0) {
-            progressBar.style.display = "block";
-            progressBar.value = video.currentTime / video.duration;
-          }
-        });
-        video.addEventListener("waiting", onWaiting);
-        video.addEventListener("playing", onPlaying);
-        video.addEventListener("ended", onEnded);
-      }
-
-      function emailResults() {
-        if (!resultsText) {
-          alert("Please complete the test before sending the email.");
-          return;
-        }
-        const customerName = document.getElementById("customerName").value.trim() || "Customer";
-        const subject = `${customerName} - Network Performance Test Results`;
-        const emailBody = `Dear TAMS,%0D%0A%0D%0APlease find below ${customerName}'s network performance test results.%0D%0A%0D%0A===============================%0D%0A${encodeURIComponent(resultsText)}%0D%0A===============================%0D%0A%0D%0AKind Regards,%0D%0AReveal Media`;
-        window.location.href = `mailto:tams@revealmedia.com?subject=${encodeURIComponent(subject)}&body=${emailBody}`;
-      }
-    </script>
+    <div class="panel">
+      <h2>Step 2: Results</h2>
+      <div id="status">Click "Start Test" to begin...</div>
+      <video id="testVideo" controls><source id="videoSource" src="" type="video/mp4" /></video>
+    </div>
   </div>
+
+<script>
+let resultsText = "";
+let statusSteps = [];
+
+function updateStatus(line, isRunning = false) {
+  // Remove previous running status
+  statusSteps = statusSteps.filter(step => !step.startsWith("🔄"));
+  if (isRunning) {
+    statusSteps.push(line);
+  } else {
+    const match = line.replace("✅", "").trim();
+    const runningIndex = statusSteps.findIndex(step => step.includes(match));
+    if (runningIndex !== -1) statusSteps.splice(runningIndex, 1);
+    statusSteps.push(line);
+  }
+  document.getElementById("status").innerText = statusSteps.join("\n");
+}
+
+function startTest() {
+  statusSteps = [];
+  document.getElementById("status").innerText = "";
+
+  const name = document.getElementById("customerName").value || "N/A";
+  const type = document.getElementById("customerType").value || "N/A";
+  const loc = document.getElementById("testLocation").value || "N/A";
+  const perf = document.getElementById("internetPerformance").value || "N/A";
+
+  resultsText = `Reveal Media Network Test Results\n====================================\n`;
+  resultsText += `Customer Name: ${name}\nCustomer Type: ${type}\nTest Location: ${loc}\nInternet Performance: ${perf}\n\n`;
+
+  updateStatus("🔄 Running Latency Test...", true);
+  runLatencyTest();
+}
+
+function runLatencyTest() {
+  const servers = [
+    "https://uscloud-w.dems360.com",
+    "https://ukcloud.dems360.com",
+    "https://nlcloud.dems360.com",
+    "https://aucloud.dems360.com"
+  ];
+
+  let completed = 0;
+  const latencyResults = {};
+
+  servers.forEach(server => {
+    let latencies = [];
+    function ping(n) {
+      if (n > 5) {
+        latencyResults[server] = latencies;
+        if (++completed === servers.length) showLatencyResults(latencyResults);
+        return;
+      }
+
+      const start = performance.now();
+      fetch(server, { mode: "no-cors" })
+        .then(() => {
+          latencies.push(performance.now() - start);
+          setTimeout(() => ping(n + 1), 150);
+        })
+        .catch(() => {
+          latencies.push(9999);
+          setTimeout(() => ping(n + 1), 150);
+        });
+    }
+
+    ping(1);
+  });
+}
+
+function showLatencyResults(results) {
+  resultsText += "Latency Test Results:\n";
+  for (const server in results) {
+    const valid = results[server].filter(t => t < 9999);
+    if (valid.length) {
+      const min = Math.min(...valid).toFixed(2);
+      const max = Math.max(...valid).toFixed(2);
+      const avg = (valid.reduce((a, b) => a + b, 0) / valid.length).toFixed(2);
+      resultsText += `${server}: Min: ${min} ms | Max: ${max} ms | Avg: ${avg} ms\n`;
+    } else {
+      resultsText += `${server}: All pings failed\n`;
+    }
+  }
+  updateStatus("✅ Latency Test Complete");
+  updateStatus("🔄 Running Speed Test...", true);
+  runDownloadSpeedTest();
+}
+
+function runDownloadSpeedTest() {
+  const fileUrl = "https://download.thinkbroadband.com/10MB.zip";
+  const startTime = performance.now();
+  fetch(fileUrl, { cache: "no-store" }).then(r => r.blob()).then(blob => {
+    const duration = (performance.now() - startTime) / 1000;
+    const sizeBits = blob.size * 8;
+    const mbps = (sizeBits / duration / (1024 * 1024)).toFixed(2);
+    resultsText += `\nSpeed Test:\nDownload Speed: ${mbps} Mbps\n`;
+    updateStatus("✅ Speed Test Complete");
+    updateStatus("🔄 Starting Video Playback Test...", true);
+    runVideoTest();
+  }).catch(() => {
+    resultsText += "\nSpeed Test Failed\n";
+    updateStatus("❌ Speed Test Failed");
+    updateStatus("🔄 Starting Video Playback Test...", true);
+    runVideoTest();
+  });
+}
+
+function runVideoTest() {
+  const video = document.getElementById("testVideo");
+  const source = document.getElementById("videoSource");
+  const selected = document.getElementById("videoSelect").value;
+
+  if (!selected) {
+    updateStatus("⚠️ No video selected.");
+    resultsText += "\nVideo Test Skipped\n";
+    finishTest();
+    return;
+  }
+
+  video.style.display = "block";
+  video.pause();
+  source.src = selected;
+  video.load();
+
+  let loadStart = 0, canPlayTime = 0, startupLatency = 0;
+  let bufferEvents = 0, bufferStart = 0, bufferTime = 0;
+
+  video.addEventListener("loadstart", () => loadStart = performance.now(), { once: true });
+
+video.addEventListener("canplay", () => {
+  canPlayTime = performance.now();
+  video.play();
+  const loadTime = (canPlayTime - loadStart).toFixed(2);
+  resultsText += `\nVideo Playback:\nLoad Time: ${loadTime} ms\n`;
+}, { once: true });
+
+  video.addEventListener("waiting", () => {
+    bufferStart = performance.now();
+    bufferEvents++;
+  });
+
+video.addEventListener("playing", () => {
+  startupLatency = (performance.now() - canPlayTime).toFixed(2);
+  if (bufferStart > 0) {
+    bufferTime += performance.now() - bufferStart;
+    bufferStart = 0;
+  }
+});
+
+video.addEventListener("ended", () => {
+  const resolution = `${video.videoWidth}x${video.videoHeight}`;
+  const quality = video.getVideoPlaybackQuality?.();
+  const dropped = quality?.droppedVideoFrames ?? "N/A";
+  const total = quality?.totalVideoFrames ?? "N/A";
+
+  resultsText += `Startup Latency: ${startupLatency} ms\n`;
+  resultsText += `Buffer Events: ${bufferEvents}\n`;
+  resultsText += `Total Buffer Time: ${bufferTime.toFixed(2)} ms\n`;
+  resultsText += `Resolution: ${resolution}\nDropped Frames: ${dropped}\nTotal Frames: ${total}\n`;
+
+  updateStatus("✅ Video Playback Test Complete");
+  updateStatus("✅ All Tests Complete");
+  finishTest();
+});
+
+}
+function finishTest() {
+  document.getElementById("emailBtn").style.display = "inline-block";
+  document.getElementById("downloadBtn").style.display = "inline-block";
+  document.getElementById("status").innerText += "\n\n" + resultsText;
+}
+
+function emailResults() {
+  const name = document.getElementById("customerName").value || "Customer";
+  const subject = `${name} - Network Test Results`;
+  const emailBody = [
+    "Dear TAMS,",
+    "",
+    `Here are the test results for ${name}:`,
+    "",
+    resultsText,
+    "",
+    "Regards,",
+    "Reveal Media"
+  ].join("\n");
+  window.location.href = `mailto:tams@revealmedia.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+}
+
+function downloadResults() {
+  const blob = new Blob([resultsText], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "Reveal_Network_Test_Results.txt";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
 </body>
 </html>
